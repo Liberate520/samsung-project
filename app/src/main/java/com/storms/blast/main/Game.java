@@ -74,7 +74,6 @@ public class Game extends View {
 
     public static List<String> commands = new ArrayList<>();
 
-    private int healthOpponent;
     private PLayer player;
     private PLayer opponentPLayer;
     private Wall wall;
@@ -91,7 +90,7 @@ public class Game extends View {
     private Water waterR;
     private QueueShoot queueShoot;
     private List<Block> blocks = new ArrayList<>();
-    private HealthBar healthBar;
+    private HealthBar healthBar, healthBarOpponent;
     private boolean firstLine;
 
     private final int timerInterval = 30;
@@ -123,7 +122,7 @@ public class Game extends View {
         waterR = new Water(getWaterBitmap(), screenWidth/2);
         queueShoot = new QueueShoot(this, BUTTON_FIRE_X, BUTTON_FIRE_Y);
         healthBar = new HealthBar(HEALTH_X, HEALTH_Y, HEALTH_WIDTH, HEALTH_HEIGHT);
-        healthOpponent = 4;
+        healthBarOpponent = new HealthBar(WALL_X+WALL_WIDTH*2, HEALTH_Y, HEALTH_WIDTH, HEALTH_HEIGHT);
         commands = new ArrayList<>();
 
         commands.add("id " + MainActivity.android_id);
@@ -145,6 +144,8 @@ public class Game extends View {
             opponentPLayer.setX(PLAYER_X);
             waterL.setX(screenWidth/2f);
             waterR.setX(0);
+            healthBar.setX(HEALTH_X+screenWidth/2f);
+            healthBarOpponent.setX(HEALTH_X);
         }
         Timer t = new Timer();
         t.start();
@@ -233,6 +234,7 @@ public class Game extends View {
         wall.draw(canvas);
         queueShoot.draw(canvas);
         healthBar.draw(canvas);
+        healthBarOpponent.draw(canvas);
     }
 
     public void update() {
@@ -271,7 +273,7 @@ public class Game extends View {
                 Rocket rocket = bullets.get(i);
 
                 if (rocket.getX() > screenWidth || rocket.getX() < -Constant.BULLET_SIDE_X || rocket.getY() > screenHeight){
-                    bullets.remove(i);
+                    bullets.remove(rocket);
                     continue;
                 }
                 if (rocket.getBoundingBoxRect().intersect(wall.getBoundingBoxRect())){
@@ -295,9 +297,9 @@ public class Game extends View {
                 }
                 if (rocket.getBoundingBoxRect().intersect(opponentPLayer.getBoundingBoxRect())){
                     MainActivity.playerDamage.start();
-                    bullets.remove(i);
-                    healthOpponent--;
-                    if (healthOpponent<1){
+                    bullets.remove(rocket);
+                    healthBarOpponent.setHealth(healthBarOpponent.getHealth()-1);
+                    if (healthBarOpponent.getHealth()<1){
                         commands.add("win 11");
                     }
                     continue;

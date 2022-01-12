@@ -3,6 +3,7 @@ package com.storms.blast.main.entities;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 public class HealthBar {
     private int health = 4;
@@ -27,7 +28,7 @@ public class HealthBar {
     public void draw(Canvas canvas){
         canvas.drawRect(x, y, x + width, y+ height, paintBound);
         canvas.drawRect(x+2, y+2, x + width -2, y+ height-2, paintBack);
-        canvas.drawRect(x+2, y+2, (x + width -2)*health/maxHealth, y+ height-2, paintFront);
+        canvas.drawRect(x+2, y+2, (x + width*health/maxHealth -2), y+ height-2, paintFront);
     }
 
     public int getHealth() {
@@ -36,5 +37,9 @@ public class HealthBar {
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public void setX(float x) {
+        this.x = x;
     }
 }

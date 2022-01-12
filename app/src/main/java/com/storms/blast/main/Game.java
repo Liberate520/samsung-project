@@ -94,7 +94,7 @@ public class Game extends View {
     private boolean firstLine;
 
     private final int timerInterval = 30;
-    private final int timeToLine = 400;
+    private final int timeToLine = 600;
     private int timeLine = 0;
 
     Bitmap bgBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
@@ -144,7 +144,7 @@ public class Game extends View {
             opponentPLayer.setX(PLAYER_X);
             waterL.setX(screenWidth/2f);
             waterR.setX(0);
-            healthBar.setX(HEALTH_X+screenWidth/2f);
+            healthBar.setX(WALL_X+WALL_WIDTH*2);
             healthBarOpponent.setX(HEALTH_X);
         }
         Timer t = new Timer();

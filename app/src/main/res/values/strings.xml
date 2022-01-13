@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">StormsBlast</string>
+    <string-array name="start_list">
+        <item>Новая игра</item>
+        <item>Статистика</item>
+        <item>Об игре</item>
+        <item>Выход</item>
+    </string-array>
 </resources>

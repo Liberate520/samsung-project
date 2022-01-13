@@ -12,7 +12,10 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -21,17 +24,19 @@ import com.storms.blast.main.connect.ConnectionService;
 
 import java.util.ArrayList;
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends Activity implements AdapterView.OnItemClickListener {
 
     public static String android_id;
+    private String[] menu;
 
     public static Game game;
 
     public static int screenWidth;
     public static int screenHeight;
 
-    Button buttonCreate, buttonAbout, buttonExit;
+    private Button buttonCreate, buttonAbout, buttonExit;
     private ProgressBar progressBar;
+    private ListView listView;
 
     public static MediaPlayer playerBack, playerPop, playerDamage;
 
@@ -91,6 +96,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         screenHeight = size.y;
         //определил размеры экрана
         setContentView(R.layout.activity_main);
+        menu = getResources().getStringArray(R.array.start_list);
         findView();
         getID();
 
@@ -101,35 +107,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         playerPop = MediaPlayer.create(this, R.raw.pop);
     }
 
-    private void findView(){
-        buttonCreate = findViewById(R.id.buttonCreate);
-        buttonAbout = findViewById(R.id.buttonAbout);
-        buttonExit = findViewById(R.id.buttonExit);
-        progressBar = findViewById(R.id.progressBar);
-
-        buttonCreate.setOnClickListener(this);
-        buttonAbout.setOnClickListener(this);
-        buttonExit.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.buttonCreate:
-                Intent intent = new Intent(this, ConnectionService.class);
-                startService(intent);
-                progressBar.setVisibility(View.VISIBLE);
-//                game = new Game(this);
-//                setContentView(game);
-//                game.startGame(true);
-                break;
-            case R.id.buttonAbout:
-                Toast.makeText(this, "Пока не готово", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.buttonExit:
-                finish();
-                break;
-        }
+    private void findView() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.my_text_view, menu);
+        listView = findViewById(R.id.listView);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
     }
 
     public void getID(){
@@ -144,5 +126,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
         intent.putExtra("text", "stop");
         sendBroadcast(intent);
         super.onDestroy();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        switch (position){
+            case 0:
+//                Intent intent = new Intent(this, ConnectionService.class);
+//                startService(intent);
+//                progressBar.setVisibility(View.VISIBLE);
+                game = new Game(this);
+                setContentView(game);
+                game.startGame(true);
+                break;
+            case 1:
+                Toast.makeText(this, "Пока не готово", Toast.LENGTH_SHORT).show();
+                break;
+            case 2:
+                Toast.makeText(this, "Пока не готово", Toast.LENGTH_SHORT).show();
+                break;
+            case 3:
+                finish();
+                break;
+        }
     }
 }

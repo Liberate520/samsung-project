@@ -49,6 +49,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     private String[] menu;
 
     public static Game game;
+    private boolean search = false;
 
     public static int screenWidth;
     public static int screenHeight;
@@ -157,12 +158,19 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position){
             case 0:
-//                Intent intent = new Intent(this, ConnectionService.class);
-//                startService(intent);
-//                progressBar.setVisibility(View.VISIBLE);
-                game = new Game(this);
-                setContentView(game);
-                game.startGame(true);
+                Intent intent = new Intent(this, ConnectionService.class);
+                if (!search) {
+                    startService(intent);
+                    progressBar.setVisibility(View.VISIBLE);
+                    search = !search;
+                } else {
+                    stopService(intent);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    search = !search;
+                }
+//                game = new Game(this);
+//                setContentView(game);
+//                game.startGame(true);
                 break;
             case 1:
                 getStat();
@@ -208,9 +216,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 socket = new Socket(ipAddress, SERVER_PORT);
                 in = new Scanner(socket.getInputStream());
                 printWriter = new PrintWriter(socket.getOutputStream());
-                printWriter.println(android_id);
+                printWriter.println("stat " + android_id);
                 printWriter.flush();
-                int timeOut = 2000;
+                int timeOut = 500;
                 while (timeOut > 0){
                     if (in.hasNext()){
                         answer = in.nextLine();

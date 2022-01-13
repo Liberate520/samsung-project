@@ -24,6 +24,8 @@ public class ClientWriter extends Thread {
 
     @Override
     public void run() {
+        writer.println("готов");
+        writer.flush();
         while (work) {
             if (Game.commands.size() != 0) {
                 if (Game.commands.get(0) == null){

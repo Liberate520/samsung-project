@@ -91,6 +91,13 @@ public class ConnectionService extends Service {
 //        return "";
 //    }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stop();
+    }
+
     class ConnectionThread extends Thread {
         @Override
         public void run() {

@@ -26,10 +26,10 @@ public class ConnectionService extends Service {
 
     // клиентский сокет
     private Socket clientSocket;
-    ClientReader clientReader;
-    ClientWriter clientWriter;
+    private ClientReader clientReader;
+    private ClientWriter clientWriter;
 
-    public static String SERVER_IP = "85.115.189.213";
+    public static final String SERVER_IP = "85.115.189.213";
     public static final int SERVER_PORT = 8081;
 
     public static final String CONNECTION_SERVICE = "Сервер соединения";

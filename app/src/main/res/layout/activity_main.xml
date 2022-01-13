@@ -18,6 +18,7 @@
     </ListView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/res"
         android:layout_width="300dp"
         android:layout_height="200dp"
         app:layout_constraintBottom_toBottomOf="parent"

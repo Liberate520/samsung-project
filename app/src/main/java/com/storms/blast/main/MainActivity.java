@@ -218,16 +218,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 printWriter = new PrintWriter(socket.getOutputStream());
                 printWriter.println("stat " + android_id);
                 printWriter.flush();
-                int timeOut = 500;
-                while (timeOut > 0){
-                    if (in.hasNext()){
-                        answer = in.nextLine();
-                        Log.d("My", answer);
-                        break;
-                    }
-                    timeOut -= 100;
-                    Thread.sleep(100);
+                if (in.hasNext()) {
+                    answer = in.nextLine();
+                    Log.d("My", answer);
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

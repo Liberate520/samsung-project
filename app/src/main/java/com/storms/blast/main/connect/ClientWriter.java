@@ -24,7 +24,7 @@ public class ClientWriter extends Thread {
 
     @Override
     public void run() {
-        writer.println("готов");
+        writer.println("готов " + MainActivity.android_id);
         writer.flush();
         while (work) {
             if (Game.commands.size() != 0) {

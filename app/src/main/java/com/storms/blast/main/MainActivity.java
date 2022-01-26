@@ -140,9 +140,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         progressBar = findViewById(R.id.progressBar);
     }
 
-    public void getID(){
-         android_id = Settings.Secure.getString(this.getContentResolver(),
+    public void getID() {
+        android_id = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
+        if (android_id == null || android_id.equals("")){
+            android_id = "unknown";
+        }
         Log.d("My", android_id);
     }
 
@@ -156,7 +159,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (position){
+        switch (position) {
             case 0:
                 Intent intent = new Intent(this, ConnectionService.class);
                 if (!search) {
@@ -184,7 +187,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         }
     }
 
-    private void getStat(){
+    private void getStat() {
         progressBar.setVisibility(View.VISIBLE);
         listView.setClickable(false);
         new ConnectionThread().execute();
@@ -192,7 +195,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 res.setVisibility(View.GONE);
                 listView.setVisibility(View.VISIBLE);
@@ -230,7 +233,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                     printWriter.close();
                     in.close();
                     socket.close();
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -239,7 +242,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
         @Override
         protected void onPostExecute(String s) {
-            if (!s.equals("")){
+            if (!s.equals("")) {
                 String[] args = s.split(" ");
                 listView.setVisibility(View.GONE);
                 res.setVisibility(View.VISIBLE);

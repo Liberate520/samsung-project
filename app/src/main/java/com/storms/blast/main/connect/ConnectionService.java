@@ -29,7 +29,7 @@ public class ConnectionService extends Service {
     private ClientReader clientReader;
     private ClientWriter clientWriter;
 
-    public static final String SERVER_IP = "85.115.189.213";
+    public static final String SERVER_IP = "178.79.155.166";
     public static final int SERVER_PORT = 8081;
 
     public static final String CONNECTION_SERVICE = "Сервер соединения";

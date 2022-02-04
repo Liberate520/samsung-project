@@ -45,7 +45,7 @@ import java.util.Scanner;
 
 public class MainActivity extends Activity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
-    public static String android_id;
+    public static String android_id = "unknown";
     private String[] menu;
 
     public static Game game;
@@ -141,10 +141,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     }
 
     public void getID() {
-        android_id = Settings.Secure.getString(this.getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-        if (android_id == null || android_id.equals("")){
-            android_id = "unknown";
+        try {
+            android_id = Settings.Secure.getString(this.getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+            if (android_id == null || android_id.equals("")){
+                android_id = "unknown";
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
         Log.d("My", android_id);
     }

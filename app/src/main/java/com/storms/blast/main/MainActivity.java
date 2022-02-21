@@ -81,29 +81,31 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                     game.startGame(false);
                     break;
                 case "lose":
-                    setContentView(R.layout.activity_main);
-                    findView();
                     Toast.makeText(MainActivity.this, "Вы проиграли...", Toast.LENGTH_LONG).show();
-                    game = null;
-                    Game.commands = new ArrayList<>();
+                    reloadActivity();
                     break;
                 case "win":
-                    setContentView(R.layout.activity_main);
-                    findView();
                     Toast.makeText(MainActivity.this, "Вы выиграли!", Toast.LENGTH_LONG).show();
-                    game = null;
-                    Game.commands = new ArrayList<>();
+                    reloadActivity();
                     break;
                 case "leave":
-                    setContentView(R.layout.activity_main);
-                    findView();
-                    Toast.makeText(MainActivity.this, "Ваш противник отключился", Toast.LENGTH_LONG).show();
-                    game = null;
-                    Game.commands = new ArrayList<>();
+                    if (game != null) {
+                        Toast.makeText(MainActivity.this, "Ваш противник отключился", Toast.LENGTH_LONG).show();
+                        reloadActivity();
+                    }
                     break;
             }
         }
     };
+
+    private void reloadActivity(){
+        setContentView(R.layout.activity_main);
+        findView();
+        search = false;
+        game.stopGame();
+        game = null;
+        Game.commands = new ArrayList<>();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

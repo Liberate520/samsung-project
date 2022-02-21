@@ -103,6 +103,8 @@ public class Game extends View {
 
     private boolean firstPlayer = true;
 
+    private Timer timer;
+
     public Game(Context context) {
         super(context);
 
@@ -147,8 +149,8 @@ public class Game extends View {
             healthBar.setX(WALL_X+WALL_WIDTH*2);
             healthBarOpponent.setX(HEALTH_X);
         }
-        Timer t = new Timer();
-        t.start();
+        timer = new Timer();
+        timer.start();
     }
 
     @Override
@@ -237,11 +239,18 @@ public class Game extends View {
         healthBarOpponent.draw(canvas);
     }
 
+    public void stopGame(){
+        if (timer != null){
+            timer.cancel();
+        }
+    }
+
     public void update() {
         for (int i = 0; i < blocks.size(); i++) {
             if (blocks.get(i).getBoundingBoxRect().intersect(opponentPLayer.getBoundingBoxRect())){
                 Log.d("My", "было касание блока");
                 commands.add("win 11");
+                stopGame();
                 break;
             }
         }
@@ -301,6 +310,7 @@ public class Game extends View {
                     healthBarOpponent.setHealth(healthBarOpponent.getHealth()-1);
                     if (healthBarOpponent.getHealth()<1){
                         commands.add("win 11");
+                        stopGame();
                     }
                     continue;
                 }
